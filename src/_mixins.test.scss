@@ -1,0 +1,134 @@
+@use 'true';
+@use 'mixins';
+
+@include true.describe('_mixins') {
+  @include true.it('1 column, space-evenly true') {
+    $gap: 2rem;
+    $column-template: 1fr;
+    @include true.assert {
+      @include true.output {
+        @include mixins.simpleGrid(1, $column-template, $gap, true);
+      }
+      @include true.expect {
+        display: flex;
+        flex-direction: column;
+        & > * {
+          width: calc(100% - #{$gap});
+          &:not(:last-child) {
+            margin-bottom: $gap;
+            margin-right: 0;
+          }
+        }
+        @supports (display: grid) {
+          display: grid;
+          grid-template-columns: $column-template;
+          grid-template-rows: min-content;
+          grid-gap: $gap;
+          & > * {
+            width: 100%;
+            &:not(:last-child) {
+              margin-right: 0;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include true.it('2 columns, space-evenly true') {
+    $gap: 2rem;
+    $column-template: 1fr 1fr;
+    @include true.assert {
+      @include true.output {
+        @include mixins.simpleGrid(2, $column-template, $gap, true);
+      }
+      @include true.expect {
+        display: flex;
+        & > * {
+          width: calc(50% - #{$gap});
+          &:not(:last-child) {
+            margin-right: $gap;
+          }
+        }
+        @supports (display: grid) {
+          display: grid;
+          grid-template-columns: $column-template;
+          grid-template-rows: min-content;
+          grid-gap: $gap;
+          & > * {
+            width: 100%;
+            &:not(:last-child) {
+              margin-right: 0;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include true.it('1 column, space-evenly false') {
+    $gap: 2rem;
+    $column-template: 1fr;
+    @include true.assert {
+      @include true.output {
+        @include mixins.simpleGrid(1, $column-template, $gap, false);
+      }
+      @include true.expect {
+        display: flex;
+        flex-direction: column;
+        & > * {
+          &:not(:last-child) {
+            margin-bottom: $gap;
+            margin-right: 0;
+          }
+        }
+        @supports (display: grid) {
+          display: grid;
+          grid-template-columns: $column-template;
+          grid-template-rows: min-content;
+          grid-gap: $gap;
+          & > * {
+            width: 100%;
+            &:not(:last-child) {
+              margin-right: 0;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include true.it('2 columns, space-evenly false') {
+    $gap: 2rem;
+    $column-template: 1fr 1fr;
+    @include true.assert {
+      @include true.output {
+        @include mixins.simpleGrid(2, $column-template, $gap, false);
+      }
+      @include true.expect {
+        display: flex;
+        & > * {
+          &:not(:last-child) {
+            margin-right: $gap;
+          }
+        }
+        @supports (display: grid) {
+          display: grid;
+          grid-template-columns: $column-template;
+          grid-template-rows: min-content;
+          grid-gap: $gap;
+          & > * {
+            width: 100%;
+            &:not(:last-child) {
+              margin-right: 0;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

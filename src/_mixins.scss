@@ -1,0 +1,41 @@
+@mixin simpleGrid($column-number, $column-template, $gap, $space-evenly: true) {
+  @if (type-of($column-number) != number or $column-number <= 0) {
+    @error "$column-number must be a positive number";
+  }
+
+  // IE11 support
+  display: flex;
+  @if $column-number == 1 {
+    flex-direction: column;
+  }
+
+  & > * {
+    @if $space-evenly {
+      width: calc(#{percentage(1 / $column-number)} - #{$gap});
+    }
+    &:not(:last-child) {
+      @if ($column-number == 1) {
+        margin-bottom: $gap;
+        margin-right: 0;
+      } @else {
+        margin-right: $gap;
+      }
+    }
+  }
+
+  // Modern browser support
+  @supports (display: grid) {
+    display: grid;
+    grid-template-columns: $column-template;
+    grid-template-rows: min-content;
+    grid-gap: $gap;
+
+    & > * {
+      width: 100%;
+      &:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
