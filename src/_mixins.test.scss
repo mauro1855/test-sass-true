@@ -3,7 +3,7 @@
 
 @include true.describe('_mixins') {
   @include true.it('1 column, space-evenly true') {
-    $gap: 2rem;
+    // $gap: 2rem;
     $column-template: 1fr;
     @include true.assert {
       @include true.output {
